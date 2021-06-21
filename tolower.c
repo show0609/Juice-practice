@@ -12,8 +12,8 @@ int main(int argc, char **argv){
 	char* buf;
 
 	strcpy(inputFile,argv[1]);
-	fd_r=open(inputFile,'w');
-	fd_w=open(inputFile,'r');
+	fd_r=open(inputFile,O_RDONLY);
+	fd_w=open(inputFile,O_WRONLY);
 	fileSize=lseek(fd_r,0,SEEK_END);
 	lseek(fd_r,0,SEEK_SET);
 	buf=(char *)malloc(fileSize+1);
@@ -21,7 +21,9 @@ int main(int argc, char **argv){
 	read(fd_r,buf,fileSize);
 	buf[fileSize]='\0';
 	for(int i=0; i<fileSize; i++){
-		buf[i]=tolower(buf[i]);
+		if(isupper(buf[i])){
+			buf[i]=tolower(buf[i]);
+		}
 	}
 
 	write(fd_w,buf,fileSize);

@@ -13,8 +13,8 @@ int main(int argc,char **argv){
 	int fileSize;
 	
 	strcpy(inputFile,argv[1]);
-	fd_r=open(inputFile,'r');
-	fd_w=open(inputFile,'w');
+	fd_r=open(inputFile,O_RDONLY);
+	fd_w=open(inputFile,O_WRONLY);
 	fileSize=lseek(fd_r,0,SEEK_END);
 	buf=(char *)malloc(fileSize+1);
 	lseek(fd_r,0,SEEK_SET);		
@@ -24,7 +24,7 @@ int main(int argc,char **argv){
 		swap(buf+i,buf+fileSize-1-i);
 	}
 	buf[fileSize]='\0';	
-	write(1,buf,fileSize);
+	write(fd_w,buf,fileSize);
 	return 0;
 }
 
